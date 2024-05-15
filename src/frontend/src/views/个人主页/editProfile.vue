@@ -43,7 +43,7 @@
         // 保存表单逻辑
       },
       cancelForm() {
-        // 取消表单逻辑
+        this.$router.go(-1);
       },
       deleteItem() {
         // 删除逻辑
