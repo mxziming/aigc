@@ -1,4 +1,4 @@
-package com.example.backend;
+package com.example.backend.user;
 
 import lombok.Data;
 import java.util.Date;

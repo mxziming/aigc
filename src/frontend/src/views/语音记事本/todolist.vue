@@ -43,7 +43,7 @@
       };
     },
     created() {
-      // this.fetchTasks();
+      this.fetchTasks();
     },
     methods: {
       fetchTasks() {
@@ -69,7 +69,7 @@
         // 导航到编辑任务页面，使用 query 参数传递 taskId
         console.log(task)
         this.$router.push({
-          name: 'edit-task',
+          path: '/todo/edit',
           query: { taskId: task.id }
         });
       },

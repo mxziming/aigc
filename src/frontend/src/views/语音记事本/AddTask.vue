@@ -47,7 +47,7 @@
           .then(() => {
             this.$message.success('任务已添加');
             this.taskForm.name = ''; // 清空表单
-            this.$router.push('/todolist'); // 假设你有一个路由用于添加任务
+            this.$router.push('/todo/list'); // 假设你有一个路由用于添加任务
           })
           .catch(error => {
             this.$message.error('添加任务失败');
