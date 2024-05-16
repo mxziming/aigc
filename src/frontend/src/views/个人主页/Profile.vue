@@ -37,8 +37,8 @@ export default {
   },
   methods: {
     fetchUserInfo() {
-      const token = getAccessToken();
-      getInfo(token)
+      // const token = getAccessToken();
+      getInfo()
     //   axios.get('/api/user/info', {
     //   headers: {
     //     'Authorization': token

@@ -29,7 +29,8 @@
 
 <script>
 import axios from 'axios';
-
+import {getInfo} from '@/api/login';
+import {save} from '@/api/editProfile';
 export default {
   data() {
     return {
@@ -46,12 +47,7 @@ export default {
   },
   methods: {
     fetchUserInfo() {
-      const token = localStorage.getItem('token');
-      axios.get('/api/user/info', {
-        headers: {
-          'Authorization': token
-        }
-      })
+      getInfo()
       .then(response => {
         const data = response.data;
         this.userForm = {
@@ -66,12 +62,13 @@ export default {
       });
     },
     saveForm() {
-      const token = localStorage.getItem('token');
-      axios.post('/api/user/update', this.userForm, {
-        headers: {
-          'Authorization': token
-        }
-      })
+      // const token = localStorage.getItem('token');
+      // axios.post('/api/user/update', this.userForm, {
+      //   headers: {
+      //     'Authorization': token
+      //   }
+      // })
+      save(this.userForm)
       .then(response => {
         console.log('Form submitted successfully:', response.data);
         this.$router.push('/profile/info');

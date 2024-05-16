@@ -27,7 +27,8 @@ export function login(username, password) {
 }
   
 //获取用户信息
-export function getInfo(token) {
+export function getInfo() {
+    const token = localStorage.getItem('token');
     return axios.get('/api/user/info', {
       headers: {
         'Authorization': token
