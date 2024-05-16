@@ -49,7 +49,7 @@
     methods: {
       logout() {
         this.$confirm('确定注销并退出系统吗？', '提示').then(() => {
-          removeToken() // 清除token
+          removeToken()
           this.$router.push({ path: '/' }) // 重定向到登录页面
         }).catch(() => {});
       },

@@ -36,11 +36,10 @@ export default {
   },
   methods: {
     fetchUserInfo() {
-      const token = localStorage.getItem('token');
-      // const token = getAccessToken();  //使用getAccessToken()无法获取token？？？？？？？？？？？？？？
+      const token = getAccessToken();
       axios.get('/api/user/info', {
          headers: {
-    'Authorization':  token// 请替换 'token' 为实际的认证令牌
+    'Authorization':  token
   }
 })
         .then(response => {
