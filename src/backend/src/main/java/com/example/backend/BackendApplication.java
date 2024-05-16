@@ -1,13 +1,13 @@
-package com.example.demo20230927;
+package com.example.backend;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Demo20230927Application {
+public class BackendApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(Demo20230927Application.class, args);
+		SpringApplication.run(BackendApplication.class, args);
 	}
 
 }

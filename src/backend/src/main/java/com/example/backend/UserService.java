@@ -1,5 +1,4 @@
-package com.example.demo20230927;
-
+package com.example.backend;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -56,5 +55,9 @@ public class UserService {
             throw new Exception("用户不存在");
         }
         return user;
+    }
+    @Transactional
+    public void update(User user) {
+        userMapper.updateUser(user);
     }
 }

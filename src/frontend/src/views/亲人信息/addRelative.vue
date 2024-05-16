@@ -21,8 +21,8 @@
           <el-input v-model="relativeForm.job"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="submitForm">提交</el-button>
-          <el-button @click="resetForm">重置</el-button>
+          <el-button type="primary" @click="submitForm">添加</el-button>
+          <el-button @click="cancel">取消</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -53,8 +53,8 @@
           }
         });
       },
-      resetForm() {
-        this.$refs.relativeForm.resetFields();
+      cancel() {
+        this.$router.go(-1);
       }
     }
   };

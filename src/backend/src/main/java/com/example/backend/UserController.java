@@ -1,4 +1,4 @@
-package com.example.demo20230927;
+package com.example.backend;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,11 +23,8 @@ public class UserController {
 
     @PostMapping("/login")
     public Map<String, Object> login(@RequestBody User loginUser) {
-        Map<String, Object> result = new HashMap<>();
-//        boolean success = userService.loginUser(loginUser.getUsername(), loginUser.getPassword());
-        boolean success = userService.loginUser(loginUser.username, loginUser.password);
+        Map<String, Object> result = new HashMap<>();boolean success = userService.loginUser(loginUser.username, loginUser.password);
         if (success) {
-//            String token = JwtUtil.generateToken(loginUser.getUsername());
             String token = JwtUtil.generateToken(loginUser.username);
             result.put("success", true);
             result.put("message", "登录成功");
@@ -44,9 +41,23 @@ public class UserController {
     public ResponseEntity<?> getUserInfo(@RequestHeader("Authorization") String token) {
         try {
             User userInfo = userService.getUserInfoByToken(token);
+            //System.out.println(userInfo.getName());
             return ResponseEntity.ok(userInfo);
         } catch (Exception e) {
+            //System.out.println("not success");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/update")
+    public String update(@RequestHeader("Authorization") String token, @RequestBody User user) {
+        try {
+            User userInfo = userService.getUserInfoByToken(token);
+            user.username = userInfo.getUsername();
+            userService.update(user);
+            return "信息修改成功";
+        } catch (Exception e) {
+            return "信息修改失败";
         }
     }
 }

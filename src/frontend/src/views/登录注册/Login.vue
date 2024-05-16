@@ -34,11 +34,8 @@ export default {
         .then(response => {
           if(response.data.success) {
             this.$message.success('登录成功');
-            // 这里可以进行路由跳转或其他操作
-            // 保存token
-            localStorage.setItem('token', response.data.token);
-
-            // this.$router.push('/todolist'); // 使用 Vue Router 进行跳转
+            localStorage.setItem('token', response.data.token);// 保存token
+            this.$router.push('/profile/info'); // 使用 Vue Router 进行跳转
           } else {
             this.$message.error(response.data.message);
           }

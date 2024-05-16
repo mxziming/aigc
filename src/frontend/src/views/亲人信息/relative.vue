@@ -32,12 +32,12 @@
     methods: {
       addRelative() {
         // 跳转或显示添加亲人信息的表单
-        this.$router.push('/addRelative');
+        this.$router.push('/relative/addRelative');
         console.log("添加亲人信息");
       },
       editRelative(relative) {
         // 跳转或显示编辑亲人信息的表单，传递当前选中的亲人信息对象
-        this.$router.push('/editRelative');
+        this.$router.push('/relative/editRelative');
         console.log("编辑亲人信息", relative);
       }
     }

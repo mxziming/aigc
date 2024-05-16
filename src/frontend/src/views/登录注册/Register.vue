@@ -21,8 +21,8 @@
       <el-date-picker v-model="userForm.birthDate" type="date" placeholder="选择日期"></el-date-picker>
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" @click="submitForm">提交</el-button>
-      <el-button @click="resetForm">重置</el-button>
+      <el-button type="primary" @click="submitForm">注册</el-button>
+      <el-button @click="cancel">返回</el-button>
     </el-form-item>
   </el-form>
   </div>
@@ -47,15 +47,15 @@ export default {
     submitForm() {
       axios.post('/api/user/add', this.userForm)
         .then(response => {
-          this.$message.success('用户添加成功');
+          this.$message.success('注册成功');
           this.$router.push('/'); 
         })
         .catch(error => {
-          this.$message.error('用户添加失败');
+          this.$message.error('注册失败，用户名重复或网络错误');
         });
     },
-    resetForm() {
-      this.$refs.userForm.resetFields();
+    cancel() {
+      this.$router.go(-1);
     },
   },
 };

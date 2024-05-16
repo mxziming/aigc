@@ -1,4 +1,4 @@
-package com.example.demo20230927;
+package com.example.backend;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
