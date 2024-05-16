@@ -9,7 +9,7 @@ router.beforeEach((to, from, next) => {
       next() // 正常跳转
     }
   } else { // 没有token
-    if (to.path === '/') {
+    if (to.path === '/'||to.path === '/register') {
       next() // 如果是去登录页，正常跳转
     } else {
       next('/') // 否则重定向到登录页

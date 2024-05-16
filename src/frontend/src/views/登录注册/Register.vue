@@ -29,8 +29,8 @@
 </template>
 
 <script>
-import axios from 'axios';
-
+// import axios from 'axios';
+import {register} from '@/api/register.js'
 export default {
   data() {
     return {
@@ -44,8 +44,22 @@ export default {
     };
   },
   methods: {
+    // submitForm() {
+    //   axios.post('/api/user/add', this.userForm)
+    //     .then(response => {
+    //       this.$message.success('注册成功');
+    //       this.$router.push('/'); 
+    //     })
+    //     .catch(error => {
+    //       this.$message.error('注册失败，用户名重复或网络错误');
+    //     });
+    // },
     submitForm() {
-      axios.post('/api/user/add', this.userForm)
+      if (!this.userForm.username || !this.userForm.password) {
+        this.$message.error('用户名和密码是必填项');
+        return;
+      }
+      register(this.userForm)
         .then(response => {
           this.$message.success('注册成功');
           this.$router.push('/'); 

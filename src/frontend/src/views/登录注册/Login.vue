@@ -17,8 +17,7 @@
 </template>
 
 <script>
-import axios from 'axios';
-
+import {login} from '@/api/login.js'
 export default {
   data() {
     return {
@@ -30,19 +29,19 @@ export default {
   },
   methods: {
     submitForm() {
-      axios.post('/api/user/login', this.loginForm)
-        .then(response => {
-          if(response.data.success) {
-            this.$message.success('登录成功');
-            localStorage.setItem('token', response.data.token);// 保存token
-            this.$router.push('/profile/info'); // 使用 Vue Router 进行跳转
-          } else {
-            this.$message.error(response.data.message);
-          }
-        })
-        .catch(error => {
-          this.$message.error('登录失败');
-        });
+      if (!this.loginForm.username || !this.loginForm.password) {
+        this.$message.error('请输入用户名和密码');
+        return;
+      }
+      login(this.loginForm.username, this.loginForm.password)
+      .then(response => {
+      this.$message.success('登录成功');
+      // 使用 Vue Router 进行跳转
+      this.$router.push('/profile/info');
+      })
+      .catch(error => {
+      this.$message.error('登录失败');
+    });
     },
     registerForm(){
       this.$router.push('/register'); 
