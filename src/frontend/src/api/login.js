@@ -1,5 +1,5 @@
 import request from '@/utils/request'
-
+import axios from 'axios';
 export function login(username, password) {
     const data = {
       username,
@@ -26,10 +26,11 @@ export function login(username, password) {
     });
 }
   
-// 获取用户信息
-// export function getInfo() {
-//   return request({
-//     url: '/system/user/profile/get',
-//     method: 'get'
-//   })
-// }
+//获取用户信息
+export function getInfo(token) {
+    return axios.get('/api/user/info', {
+      headers: {
+        'Authorization': token
+      }
+    });
+  }

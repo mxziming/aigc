@@ -19,6 +19,7 @@
 
 <script>
 import axios from 'axios';
+import {getInfo} from '@/api/login';
 import { getAccessToken } from '@/utils/auth';
 export default {
   data() {
@@ -37,16 +38,17 @@ export default {
   methods: {
     fetchUserInfo() {
       const token = getAccessToken();
-      axios.get('/api/user/info', {
-         headers: {
-    'Authorization':  token
-  }
-})
+      getInfo(token)
+    //   axios.get('/api/user/info', {
+    //   headers: {
+    //     'Authorization': token
+    //   }
+    // })
         .then(response => {
           const data = response.data;
           this.userInfo = {
             name: data.name,
-            age: this.calculateAge(data.birthDate), // Assuming `birthDate` is the key for the birth date in the response
+            age: this.calculateAge(data.birthDate),
             gender: data.gender,
             description: data.description
           };
@@ -55,6 +57,26 @@ export default {
           console.error('Error fetching user info:', error);
         });
     },
+//     fetchUserInfo() {
+//       const token = getAccessToken();
+//       axios.get('/api/user/info', {
+//          headers: {
+//     'Authorization':  token
+//   }
+// })
+//         .then(response => {
+//           const data = response.data;
+//           this.userInfo = {
+//             name: data.name,
+//             age: this.calculateAge(data.birthDate), // Assuming `birthDate` is the key for the birth date in the response
+//             gender: data.gender,
+//             description: data.description
+//           };
+//         })
+//         .catch(error => {
+//           console.error('Error fetching user info:', error);
+//         });
+//     },
     calculateAge(birthDate) {
       const birth = new Date(birthDate);
       const today = new Date();
