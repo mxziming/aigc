@@ -24,7 +24,7 @@ public class TaskController {
             // 从 token 中获取用户信息
             User user = userService.getUserInfoByToken(token);
             // 使用用户ID获取任务列表
-            System.out.println(user.getId());
+            //System.out.println(user.getId());
             List<Task> tasks = taskService.getTasksByUserId(user.getId());
             return ResponseEntity.ok(tasks);
         } catch (Exception e) {

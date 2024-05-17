@@ -1,4 +1,4 @@
-<template>
+   <template>
     <div class="add-relative-page">
       <h2>添加亲人信息</h2>
       <el-form :model="relativeForm" ref="relativeForm" label-width="100px">
@@ -29,6 +29,9 @@
   </template>
   
   <script>
+  import axios from 'axios';
+  import { getAccessToken } from '@/utils/auth'; // 确保路径正确
+  
   export default {
     data() {
       return {
@@ -43,14 +46,26 @@
     },
     methods: {
       submitForm() {
-        this.$refs.relativeForm.validate(valid => {
-          if (valid) {
-            // 提交表单逻辑
-            console.log('Form submitted!');
-          } else {
-            console.log('Form validation failed');
-            return false;
+        const token = getAccessToken();
+        if (!token) {
+          this.$message.error('Token不存在，请登录');
+          return;
+        }
+  
+        // 表单验证通过，提交表单数据
+        axios.post('/api/relative/add', this.relativeForm, {
+          headers: {
+            // 'Authorization': `Bearer ${token}`
+            'Authorization': token // 确保Bearer格式
           }
+        })
+        .then(response => {
+          console.log('添加成功!');
+          this.$router.go(-1);
+        })
+        .catch(error => {
+          console.error(error); // 打印详细错误信息
+          this.$message.error('添加失败');
         });
       },
       cancel() {

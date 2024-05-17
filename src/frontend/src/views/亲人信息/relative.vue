@@ -1,6 +1,7 @@
 <template>
-    <div class="relative-page">
-      <h2>亲人信息</h2>
+  <div class="relative-page">
+    <h2>亲人信息</h2>
+    <div class="relative-cards">
       <el-card v-for="relative in relatives" :key="relative.rid" class="relative-card" shadow="hover">
         <div slot="header" class="clearfix">
           <span>{{ relative.relation }}</span>
@@ -14,52 +15,74 @@
           <p><strong>职业：</strong>{{ relative.job }}</p>
         </div>
       </el-card>
-      <div class="button-group">
-        <el-button type="primary" @click="addRelative">添加亲人信息</el-button>
-      </div>
     </div>
-  </template>
+    <div class="button-group">
+      <el-button type="primary" @click="addRelative">添加亲人信息</el-button>
+    </div>
+  </div>
+</template>
   
   <script>
-  export default {
-    data() {
-      return {
-        relatives: [
-          // 初始亲人信息为空数组，实际数据应通过接口或其他方式获取
-        ]
-      };
+import { getAccessToken } from '@/utils/auth';
+import axios from 'axios';
+
+export default {
+  data() {
+    return {
+      relatives: []
+    };
+  },  
+  mounted() {
+    this.fetchRelativeInfo(); // 在组件挂载后调用 API 获取信息
+  },
+  methods: {
+    fetchRelativeInfo() {
+      const token = getAccessToken()
+      axios.get('/api/relative/info', {
+        headers: {
+          'Authorization': token
+        }
+      })
+        .then(response => {
+          this.relatives = response.data;
+        })
+        .catch(error => {
+          console.error('获取亲人信息失败:', error);
+        });
     },
-    methods: {
-      addRelative() {
-        // 跳转或显示添加亲人信息的表单
-        this.$router.push('/relative/addRelative');
-        console.log("添加亲人信息");
-      },
-      editRelative(relative) {
-        // 跳转或显示编辑亲人信息的表单，传递当前选中的亲人信息对象
-        this.$router.push('/relative/editRelative');
-        console.log("编辑亲人信息", relative);
-      }
+    addRelative() {
+      // 跳转或显示添加亲人信息的表单
+      this.$router.push('/relative/addRelative');
+      console.log("添加亲人信息");
+    },
+    editRelative(relative) {
+      // 跳转或显示编辑亲人信息的表单，传递当前选中的亲人信息对象
+      this.$router.push({ path: '/relative/editRelative', query: { rid: relative.rid } });
+      console.log("编辑亲人信息", relative);
     }
-  };
+  }
+};
   </script>
   
   <style scoped>
   .relative-page {
     padding: 20px;
   }
+  
+  .relative-cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  
   .relative-card {
+    width: calc(50% - 10px); /* 每个卡片宽度为页面宽度的一半减去外边距 */
     margin-bottom: 20px;
   }
-  .edit-button {
-    float: right;
-  }
-  .relative-info {
-    padding: 10px;
-  }
-  .button-group {
-    margin-top: 20px;
-    text-align: center;
-  }
-  </style>
   
+  .button-group {
+  position: fixed; /* 按钮固定定位 */
+  top: 50px; /* 距离底部 20px */
+  right: 50px; /* 距离右侧 20px */
+}
+  </style>

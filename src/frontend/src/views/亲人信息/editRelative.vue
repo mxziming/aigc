@@ -33,12 +33,14 @@
   </template>
   
   <script>
-  import axios from 'axios';
+  import { getAccessToken } from '@/utils/auth';
+import axios from 'axios';
   
   export default {
     data() {
       return {
         relativeForm: {
+          rid: null,
           id: null,
           name: '',
           age: null,
@@ -53,14 +55,18 @@
     },
     methods: {
       initializeRelative() {
-        const relativeId = this.$route.query.relativeId;
-        if (relativeId) {
-          this.fetchRelative(relativeId);
+        const rid = this.$route.query.rid;
+        if (rid) {
+          this.fetchRelative(rid);
         }
       },
-      fetchRelative(relativeId) {
-        // 假设接口地址为 '/api/relatives/{relativeId}'
-        axios.get(`/api/relatives/${relativeId}`)
+      fetchRelative(rid) {
+        const token = getAccessToken()
+        axios.get(`/api/relative/${rid}`, {
+          headers: {
+            'Authorization': token // 确保Bearer格式
+          }
+        })
           .then(response => {
             this.relativeForm = response.data;  // 假设响应数据直接是亲人信息对象
           })
@@ -70,11 +76,16 @@
           });
       },
       saveRelative() {
-        // 假设接口地址为 '/api/relatives/update'
-        axios.post('/api/relatives/update', this.relativeForm)
+        // 假设接口地址为 '/api/relative/update'
+        const token = getAccessToken()
+        axios.post('/api/relative/update', this.relativeForm, {
+          headers: {
+            'Authorization': token // 确保Bearer格式
+          }
+        })
           .then(() => {
             this.$message.success('亲人信息已更新');
-            this.$router.push('/relatives'); // 保存成功后跳转到亲人信息列表页面
+            this.$router.push('/relative/info'); // 保存成功后跳转到亲人信息列表页面
           })
           .catch(error => {
             console.error('Error saving relative:', error);
