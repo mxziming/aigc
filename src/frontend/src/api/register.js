@@ -1,6 +1,5 @@
 import request from '@/utils/request'
 
-// 用户注册
 export function register(userData) {
   return request({
     url: '/user/add',
@@ -8,3 +7,4 @@ export function register(userData) {
     data: userData
   });
 }
+

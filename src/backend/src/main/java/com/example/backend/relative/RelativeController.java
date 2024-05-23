@@ -18,10 +18,11 @@ public class RelativeController {
     private RelativeService relativeService;
 
     @PostMapping("/add")
-    public ResponseEntity<?> addRelative(@RequestBody Relative relative, @RequestHeader("Authorization") String token) {
+    public ResponseEntity<?> addRelative(@RequestBody Relative relative, @RequestHeader("Authorization") String ACCESS_TOKEN) {
 //        relativeService.addRelative(relative);
         try {
             // 可能需要从 token 解析用户 ID
+            String token = ACCESS_TOKEN.substring(7);
             User user = userService.getUserInfoByToken(token);
             relative.setId(user.getId());  // 设置任务的用户 ID
             relativeService.addRelative(relative);
@@ -32,15 +33,17 @@ public class RelativeController {
     }
 
     @GetMapping("/info")
-    public List<Relative> getAllRelatives( @RequestHeader("Authorization") String token) throws Exception {
+    public List<Relative> getAllRelatives( @RequestHeader("Authorization") String ACCESS_TOKEN) throws Exception {
+        String token = ACCESS_TOKEN.substring(7);
         User user = userService.getUserInfoByToken(token);
         int id = user.getId();
         return relativeService.getAllRelatives(id);
     }
 
     @GetMapping("/{rid}")
-    public ResponseEntity<?> getRelativeByRid(@PathVariable int rid, @RequestHeader("Authorization") String token) {
+    public ResponseEntity<?> getRelativeByRid(@PathVariable int rid, @RequestHeader("Authorization") String ACCESS_TOKEN) {
         try {
+            String token = ACCESS_TOKEN.substring(7);
             User user = userService.getUserInfoByToken(token);
             Relative relative  = relativeService.findRelativeByRId(rid);
             if (relative != null && relative.getId()==user.getId()) {

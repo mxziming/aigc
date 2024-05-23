@@ -18,9 +18,7 @@
 </template>
 
 <script>
-import axios from 'axios';
 import {getInfo} from '@/api/login';
-import { getAccessToken } from '@/utils/auth';
 export default {
   data() {
     return {
@@ -37,13 +35,7 @@ export default {
   },
   methods: {
     fetchUserInfo() {
-      // const token = getAccessToken();
       getInfo()
-    //   axios.get('/api/user/info', {
-    //   headers: {
-    //     'Authorization': token
-    //   }
-    // })
         .then(response => {
           const data = response.data;
           this.userInfo = {
@@ -54,29 +46,9 @@ export default {
           };
         })
         .catch(error => {
-          console.error('Error fetching user info:', error);
+          console.error('信息获取失败：', error);
         });
     },
-//     fetchUserInfo() {
-//       const token = getAccessToken();
-//       axios.get('/api/user/info', {
-//          headers: {
-//     'Authorization':  token
-//   }
-// })
-//         .then(response => {
-//           const data = response.data;
-//           this.userInfo = {
-//             name: data.name,
-//             age: this.calculateAge(data.birthDate), // Assuming `birthDate` is the key for the birth date in the response
-//             gender: data.gender,
-//             description: data.description
-//           };
-//         })
-//         .catch(error => {
-//           console.error('Error fetching user info:', error);
-//         });
-//     },
     calculateAge(birthDate) {
       const birth = new Date(birthDate);
       const today = new Date();
@@ -88,7 +60,6 @@ export default {
       return age;
     },
     editInfo() {
-      // 跳转到编辑信息页面的逻辑
       this.$router.push('/profile/editProfile');
     }
   }

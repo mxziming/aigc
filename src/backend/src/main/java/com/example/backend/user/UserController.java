@@ -1,5 +1,5 @@
 package com.example.backend.user;
-
+import com.example.backend.CommonResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,26 +38,30 @@ public class UserController {
     }
 
     @GetMapping("/info")
-    public ResponseEntity<?> getUserInfo(@RequestHeader("Authorization") String token) {
+    public CommonResult<?> getUserInfo(@RequestHeader("Authorization") String ACCESS_TOKEN) {
         try {
+            String token = ACCESS_TOKEN.substring(7);
             User userInfo = userService.getUserInfoByToken(token);
             //System.out.println(userInfo.getName());
-            return ResponseEntity.ok(userInfo);
+//            return ResponseEntity.ok(userInfo);
+            return CommonResult.success(userInfo);
         } catch (Exception e) {
             //System.out.println("not success");
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+            return CommonResult.error(400,"身份识别出现错误");
         }
     }
 
     @PostMapping("/update")
-    public String update(@RequestHeader("Authorization") String token, @RequestBody User user) {
+    public CommonResult<?> update(@RequestHeader("Authorization") String ACCESS_TOKEN, @RequestBody User user) {
         try {
+            String token = ACCESS_TOKEN.substring(7);
             User userInfo = userService.getUserInfoByToken(token);
             user.username = userInfo.getUsername();
             userService.update(user);
-            return "信息修改成功";
+            return CommonResult.success(user);
         } catch (Exception e) {
-            return "信息修改失败";
+            return CommonResult.error(400,"身份识别出现错误");
         }
     }
 }

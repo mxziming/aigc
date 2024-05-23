@@ -1,4 +1,4 @@
-const AccessTokenKey = 'token'
+const AccessTokenKey = 'ACCESS_TOKEN'
 
 // 获取 Token
 export function getAccessToken() {

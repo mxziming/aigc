@@ -35,12 +35,15 @@ export default {
       }
       login(this.loginForm.username, this.loginForm.password)
       .then(response => {
-      this.$message.success('登录成功');
-      // 使用 Vue Router 进行跳转
-      this.$router.push('/profile/info');
+      if(response.success === true){
+        localStorage.setItem('ACCESS_TOKEN', response.token);
+        this.$message.success('登录成功');
+        this.$router.push('/profile');}
+      else
+        this.$message.error('用户名或密码错误');
       })
       .catch(error => {
-      this.$message.error('登录失败');
+      this.$message.error('网络出现问题');
     });
     },
     registerForm(){

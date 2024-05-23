@@ -29,7 +29,6 @@ public class JwtUtil {
 
     public static String getUsernameFromToken(String token) throws Exception {
         try {
-            //System.out.println(token);
             Jws<Claims> claimsJws = Jwts.parser().setSigningKey(KEY).parseClaimsJws(token);
             return claimsJws.getBody().getSubject();
         } catch (Exception e) {

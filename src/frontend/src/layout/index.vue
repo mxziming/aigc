@@ -2,7 +2,7 @@
     <div>
         <div class="side-bar">
             <el-menu class="el-menu-vertical-demo" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
-                <el-menu-item index="/profile/info" @click="$router.push('/profile/info')">
+                <el-menu-item index="/profile/info" @click="$router.push('/profile')">
                     <i class="el-icon-house"></i>
                     <span slot="title">个人主页</span>
                 </el-menu-item>

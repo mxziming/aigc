@@ -28,7 +28,6 @@
 </template>
 
 <script>
-import axios from 'axios';
 import {getInfo} from '@/api/login';
 import {save} from '@/api/editProfile';
 export default {
@@ -58,23 +57,23 @@ export default {
         };
       })
       .catch(error => {
-        console.error('Error fetching user info:', error);
+        console.error('信息获取失败：', error);
       });
     },
     saveForm() {
-      // const token = localStorage.getItem('token');
-      // axios.post('/api/user/update', this.userForm, {
-      //   headers: {
-      //     'Authorization': token
-      //   }
-      // })
       save(this.userForm)
       .then(response => {
-        console.log('Form submitted successfully:', response.data);
-        this.$router.push('/profile/info');
+        if(response.code === 200){
+          this.$message.success("信息修改成功")
+          this.$router.push('/profile')
+        }
+        else{
+          this.$message.error("信息修改失败")
+          this.$router.push('/profile')
+        }
       })
       .catch(error => {
-        console.error('Error submitting form:', error);
+        console.error('网络异常', error);
       });
     },
     cancelForm() {

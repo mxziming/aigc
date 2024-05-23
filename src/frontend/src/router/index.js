@@ -26,7 +26,7 @@ const routes = [
         component: () => import( '../views/个人主页/editProfile.vue')
       },
       {
-        path: 'info',
+        path: '',
         name: 'profile',
         component: () => import('../views/个人主页/Profile.vue')
       },
@@ -138,6 +138,11 @@ const routes = [
   ]
 },
 ]
+// 防止连续点击多次路由报错
+let routerPush = VueRouter.prototype.push;
+VueRouter.prototype.push = function push(location) {
+  return routerPush.call(this, location).catch(err => err)
+}
 
 const router = new VueRouter({
   mode: 'history',

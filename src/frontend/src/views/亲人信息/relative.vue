@@ -22,10 +22,8 @@
   </div>
 </template>
   
-  <script>
-import { getAccessToken } from '@/utils/auth';
-import axios from 'axios';
-
+<script>
+import { relative } from '@/api/relative';
 export default {
   data() {
     return {
@@ -33,38 +31,32 @@ export default {
     };
   },  
   mounted() {
-    this.fetchRelativeInfo(); // 在组件挂载后调用 API 获取信息
+    this.fetchRelativeInfo(); 
   },
   methods: {
     fetchRelativeInfo() {
-      const token = getAccessToken()
-      axios.get('/api/relative/info', {
-        headers: {
-          'Authorization': token
-        }
-      })
+      relative()
         .then(response => {
-          this.relatives = response.data;
+        this.relatives = response;
         })
         .catch(error => {
           console.error('获取亲人信息失败:', error);
         });
     },
+    
     addRelative() {
-      // 跳转或显示添加亲人信息的表单
       this.$router.push('/relative/addRelative');
       console.log("添加亲人信息");
     },
     editRelative(relative) {
-      // 跳转或显示编辑亲人信息的表单，传递当前选中的亲人信息对象
       this.$router.push({ path: '/relative/editRelative', query: { rid: relative.rid } });
       console.log("编辑亲人信息", relative);
     }
   }
 };
-  </script>
+</script>
   
-  <style scoped>
+<style scoped>
   .relative-page {
     padding: 20px;
   }
@@ -84,5 +76,5 @@ export default {
   position: fixed; /* 按钮固定定位 */
   top: 50px; /* 距离底部 20px */
   right: 50px; /* 距离右侧 20px */
-}
-  </style>
+  }
+</style>
