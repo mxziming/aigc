@@ -2,8 +2,17 @@ package com.example.backend.chat;
 
 import org.apache.ibatis.annotations.Mapper;
 
-//@Repository
+import java.util.List;
+
 @Mapper
 public interface ChatMapper {
-    void save(ChatMessage message);
+
+
+    List<Chat> getChatsBySessionId(String sessionid);
+
+    void insertChat(Chat chat);
 }
+
+
+
+

@@ -1,7 +1,15 @@
 -- chat页面
 CREATE TABLE chat (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    content VARCHAR(255) NOT NULL,
-    sessionid VARCHAR(50),
-    query_params JSON  -- 或者根据实际情况选择适当的字段类型
+		cid INT AUTO_INCREMENT PRIMARY KEY,
+    uid INT,
+		sessionid INT,
+		`date` Date,
+    question VARCHAR(255) NOT NULL,
+		answer VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE chathistory (
+    uid INT,
+		sessionid INT AUTO_INCREMENT PRIMARY KEY,
+		`date` Date
 );

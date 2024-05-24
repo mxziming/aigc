@@ -1,4 +1,4 @@
-package com.example.backend.chat;
+package com.example.backend.oldchat;
 
 import lombok.Data;
 

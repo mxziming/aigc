@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import {register} from '@/api/register.js'
+import {register} from '@/api/login.js'
 export default {
   data() {
     return {

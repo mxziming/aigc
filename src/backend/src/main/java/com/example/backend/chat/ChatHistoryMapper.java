@@ -1,4 +1,4 @@
-package com.example.backend.newchat;
+package com.example.backend.chat;
 
 import org.apache.ibatis.annotations.Mapper;
 

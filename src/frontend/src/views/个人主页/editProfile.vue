@@ -28,8 +28,8 @@
 </template>
 
 <script>
-import {getInfo} from '@/api/login';
-import {save} from '@/api/editProfile';
+import {getInfo} from '@/api/profile';
+import {save} from '@/api/profile';
 export default {
   data() {
     return {

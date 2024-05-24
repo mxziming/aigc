@@ -8,9 +8,10 @@ export function login(loginForm) {
     })
 }
 
-export function getInfo() {
-    return request({
-      url: `/user/info`,
-      method: 'get',
-  })
+export function register(userData) {
+  return request({
+    url: '/user/add',
+    method: 'post',
+    data: userData
+  });
 }

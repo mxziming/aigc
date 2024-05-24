@@ -1,4 +1,4 @@
-package com.example.backend.newchat;
+package com.example.backend.oldchat;
 
 import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
