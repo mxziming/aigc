@@ -23,9 +23,10 @@ export function addrelative(relative) {
     });
   }
 
-
-//   axios.get(`/api/relative/${rid}`, {
-//     headers: {
-//       'Authorization': token // 确保Bearer格式
-//     }
-//   })
+  export function saverelative(relative) {
+    return request({
+      url: '/relative/update',
+      method: 'post',
+      data: relative
+    });
+  }

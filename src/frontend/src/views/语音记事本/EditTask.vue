@@ -24,8 +24,8 @@
 </template>
 
 <script>
-import axios from 'axios';
-
+import { edittask } from '@/api/task';
+import { fetchtask } from '@/api/task';
 export default {
   data() {
     return {
@@ -49,31 +49,18 @@ export default {
       }
     },
     fetchTask(taskId) {
-      const token = localStorage.getItem('token');
-      axios.get(`/api/tasks/${taskId}`, {
-        headers: {
-          'Authorization': token
-        }
-      })
+      fetchtask(taskId)
           .then(response => {
-            this.taskForm = response.data;  // 假设响应数据直接是任务对象
+            this.taskForm = response;
           })
           .catch(error => {
             this.$message.error('加载任务信息失败');
           });
     },
     saveTask() {
-      // 添加保存任务逻辑
-      //const taskId = this.$route.query.taskId;
-      const token = localStorage.getItem('token');
-      axios.post('/api/tasks/update', this.taskForm, {
-        headers: {
-          'Authorization': token
-        }
-      })
+      edittask(this.taskForm)
           .then(() => {
             this.$message.success('任务已更新');
-            // this.taskForm.name = ''; // 清空表单
              this.$router.push('/todo/list'); 
           })
           .catch(error => {
@@ -82,7 +69,7 @@ export default {
           });
     },
     cancel() {
-      this.$router.go(-1); // 返回上一页
+      this.$router.go(-1);
     }
   }
 };

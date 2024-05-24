@@ -33,7 +33,7 @@ export default {
         this.$message.error('请输入用户名和密码');
         return;
       }
-      login(this.loginForm.username, this.loginForm.password)
+      login(this.loginForm)
       .then(response => {
       if(response.success === true){
         localStorage.setItem('ACCESS_TOKEN', response.token);

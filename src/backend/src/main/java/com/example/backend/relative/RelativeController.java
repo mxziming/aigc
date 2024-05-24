@@ -57,12 +57,15 @@ public class RelativeController {
     }
 
     @PostMapping("/update")
-    public ResponseEntity<?> updateRelative(@RequestBody Relative relative, @RequestHeader("Authorization") String token) {
+    public ResponseEntity<?> updateRelative(@RequestHeader("Authorization") String ACCESS_TOKEN, @RequestBody Relative relative) {
         try {
-            User user = userService.getUserInfoByToken(token);
-            relative.setId(user.getId());  // 设置任务的用户 ID
-            relativeService.updateRelative(relative);
-            return ResponseEntity.ok("任务更新成功");
+                String token = ACCESS_TOKEN.substring(7);
+                System.out.println(token);
+                System.out.println(relative.getId());
+                User user = userService.getUserInfoByToken(token);
+                relative.setId(user.getId());  // 设置任务的用户 ID
+                relativeService.updateRelative(relative);
+                return ResponseEntity.ok("任务更新成功");
 
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("任务添加失败: " + e.getMessage());

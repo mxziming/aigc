@@ -24,8 +24,7 @@
   </template>
   
   <script>
-  import axios from 'axios';
-  
+  import { addtask } from '@/api/task';
   export default {
     data() {
       return {
@@ -38,12 +37,7 @@
     },
     methods: {
       addTask() {
-        const token = localStorage.getItem('token');
-        axios.post('/api/tasks/add', this.taskForm, {
-          headers: {
-            'Authorization': token
-          }
-        })
+        addtask(this.taskForm)
           .then(() => {
             this.$message.success('任务已添加');
             this.taskForm.name = ''; // 清空表单

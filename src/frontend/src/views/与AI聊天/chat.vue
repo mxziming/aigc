@@ -59,7 +59,9 @@
           content: this.message,
           sessionId: this.sessionId // 包含sessionId
         };
-        axios.post('/api/chat/send', requestBody)
+        axios.post('/api/chat/send', requestBody,{
+          'Authorization' : 'Bear '+localStorage.getItem("ACCESS_TOKEN")
+        })
             .then(response => {
               const responseData = response.data;
               if (responseData && responseData.data && responseData.code === 0) {
@@ -131,3 +133,130 @@
     color: #999;
   }
   </style>
+
+  <!-- <template>
+    <el-container>
+      <el-aside width="300px">
+        <el-menu :default-active="currentSessionId" @select="handleSelect">
+          <el-menu-item v-for="history in chatHistories" :key="history.sessionid" :index="history.sessionid">
+            {{ history.sessionid }}
+          </el-menu-item>
+        </el-menu>
+      </el-aside>
+      
+      <el-container>
+        <el-main>
+          <div v-if="chats.length" class="chat-container">
+            <div v-for="chat in chats" :key="chat.cid" class="chat-item">
+              <p><strong>Question:</strong> {{ chat.question }}</p>
+              <p><strong>Answer:</strong> {{ chat.answer }}</p>
+            </div>
+          </div>
+          <div v-else class="no-chat">
+            <p>Select a session to view the chat history</p>
+          </div>
+        </el-main>
+        
+        <el-footer>
+          <el-input v-model="newQuestion" placeholder="Enter your message">
+            <el-button slot="append" @click="sendChat">Send</el-button>
+          </el-input>
+        </el-footer>
+      </el-container>
+    </el-container>
+  </template>
+  
+  <script>
+  import axios from 'axios';
+  
+  export default {
+    data() {
+      return {
+        chatHistories: [],
+        chats: [],
+        currentSessionId: '',
+        newQuestion: '',
+      };
+    },
+    methods: {
+      async fetchChatHistories() {
+        try {
+          const response = await axios.get('/chat/chathistory', {
+            params: { uid: 1 }  // Assuming uid is 1 for demonstration
+          });
+          this.chatHistories = response.data;
+        } catch (error) {
+          console.error('Error fetching chat histories:', error);
+        }
+      },
+      async fetchChats(sessionid) {
+        try {
+          const response = await axios.get(`/chat/info/${sessionid}`);
+          this.chats = response.data;
+        } catch (error) {
+          console.error('Error fetching chats:', error);
+        }
+      },
+      handleSelect(sessionid) {
+        this.currentSessionId = sessionid;
+        this.fetchChats(sessionid);
+      },
+      async sendChat() {
+        if (this.newQuestion.trim() === '') return;
+        
+        const newChat = {
+          uid: 1,  // Assuming uid is 1 for demonstration
+          sessionid: this.currentSessionId,
+          question: this.newQuestion,
+          answer: ''  // Answer will be populated by the server
+        };
+  
+        try {
+          const response = await axios.post('/chat/send', newChat);
+          newChat.answer = response.data;
+          this.chats.push(newChat);
+          this.newQuestion = '';
+        } catch (error) {
+          console.error('Error sending chat:', error);
+        }
+      }
+    },
+    mounted() {
+      this.fetchChatHistories();
+    }
+  };
+  </script>
+  
+  <style>
+  .el-aside {
+    background: #f0f2f5;
+  }
+  
+  .chat-container {
+    max-height: 600px;
+    overflow-y: auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .chat-item {
+    margin-bottom: 15px;
+  }
+  
+  .no-chat {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    color: #aaa;
+  }
+  
+  .el-footer {
+    padding: 20px;
+    background: #fff;
+    border-top: 1px solid #ebeef5;
+  }
+  </style>
+   -->

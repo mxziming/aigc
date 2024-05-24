@@ -19,8 +19,9 @@ public class TaskController {
     private UserService userService;  // 确保 UserService 能够被注入
 
     @GetMapping("/mytasks")
-    public ResponseEntity<?> getMyTasks(@RequestHeader("Authorization") String token) {
+    public ResponseEntity<?> getMyTasks(@RequestHeader("Authorization") String ACCESS_TOKEN) {
         try {
+            String token = ACCESS_TOKEN.substring(7);
             // 从 token 中获取用户信息
             User user = userService.getUserInfoByToken(token);
             // 使用用户ID获取任务列表
@@ -33,8 +34,9 @@ public class TaskController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> addTask(@RequestBody Task task, @RequestHeader("Authorization") String token) {
+    public ResponseEntity<?> addTask(@RequestBody Task task, @RequestHeader("Authorization") String ACCESS_TOKEN) {
         try {
+            String token = ACCESS_TOKEN.substring(7);
             // 可能需要从 token 解析用户 ID
             User user = userService.getUserInfoByToken(token);
             task.setUid(user.getId());  // 设置任务的用户 ID
@@ -49,8 +51,9 @@ public class TaskController {
 
     // 在 TaskController.java 中
     @GetMapping("/{taskId}")
-    public ResponseEntity<?> getTaskById(@PathVariable Long taskId, @RequestHeader("Authorization") String token) {
+    public ResponseEntity<?> getTaskById(@PathVariable Long taskId, @RequestHeader("Authorization") String ACCESS_TOKEN) {
         try {
+            String token = ACCESS_TOKEN.substring(7);
             User user = userService.getUserInfoByToken(token);
             Task task = taskService.findTaskById(taskId);
 
@@ -65,8 +68,9 @@ public class TaskController {
     }
 
     @PostMapping("/update")
-    public ResponseEntity<?> updateTask(@RequestBody Task task, @RequestHeader("Authorization") String token) {
+    public ResponseEntity<?> updateTask(@RequestBody Task task, @RequestHeader("Authorization") String ACCESS_TOKEN) {
         try {
+            String token = ACCESS_TOKEN.substring(7);
             User user = userService.getUserInfoByToken(token);
             task.setUid(user.getId());  // 设置任务的用户 ID
             taskService.updateTask(task);
@@ -77,8 +81,9 @@ public class TaskController {
         }
     }
     @PostMapping("/delete")
-    public ResponseEntity<?> deleteTask(@RequestBody Task task, @RequestHeader("Authorization") String token) {
+    public ResponseEntity<?> deleteTask(@RequestBody Task task, @RequestHeader("Authorization") String ACCESS_TOKEN) {
         try {
+            String token = ACCESS_TOKEN.substring(7);
             User user = userService.getUserInfoByToken(token);
             task.setUid(user.getId());  // 设置任务的用户 ID
             taskService.deleteTask(task);

@@ -42,11 +42,9 @@ public class UserController {
         try {
             String token = ACCESS_TOKEN.substring(7);
             User userInfo = userService.getUserInfoByToken(token);
-            //System.out.println(userInfo.getName());
 //            return ResponseEntity.ok(userInfo);
             return CommonResult.success(userInfo);
         } catch (Exception e) {
-            //System.out.println("not success");
 //            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
             return CommonResult.error(400,"身份识别出现错误");
         }

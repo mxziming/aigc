@@ -18,17 +18,12 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/chat")
 public class ChatController {
-
-    private final WebClient webClient;
-    private final SignatureUtil signatureUtil;
+    @Autowired
+    private WebClient webClient;
+    @Autowired
+    private SignatureUtil signatureUtil;
     @Autowired
     private ChatMapper chatMapper;
-
-    public ChatController(WebClient webClient, SignatureUtil signatureUtil) {
-        this.webClient = webClient;
-        this.signatureUtil = signatureUtil;
-
-    }
 
     @PostMapping("/send")
     public Mono<ResponseEntity<String>> sendMessage(@RequestBody ChatMessage message) {
@@ -63,5 +58,4 @@ public class ChatController {
                 message.getContent(),
                 message.getSessionid()); // 使用传递的sessionId
     }
-
 }

@@ -34,8 +34,8 @@
   </template>
   
   <script>
-  import axios from 'axios';
-  
+  import { fetchtasks } from '@/api/task';
+  import { deletetask } from '@/api/task';
   export default {
     data() {
       return {
@@ -47,14 +47,9 @@
     },
     methods: {
       fetchTasks() {
-        const token = localStorage.getItem('token');
-        axios.get('/api/tasks/mytasks', {
-          headers: {
-            'Authorization': token
-          }
-        })
+        fetchtasks()
             .then(response => {
-              this.tasks = response.data;
+              this.tasks = response;
             })
             .catch(error => {
               this.$message.error('获取任务列表失败');
@@ -67,19 +62,20 @@
       },
       editTask(task) {
         // 导航到编辑任务页面，使用 query 参数传递 taskId
-        console.log(task)
+        // console.log(task)
         this.$router.push({
           path: '/todo/edit',
           query: { taskId: task.id }
         });
       },
       deleteTask(task) {
-        const token = localStorage.getItem('token');
-        axios.post('/api/tasks/delete', task, {
-          headers: {
-            'Authorization': token
-          }
-        })
+        // const token = localStorage.getItem('ACCESS_TOKEN');
+        // axios.post('/api/tasks/delete', task, {
+        //   headers: {
+        //     'Authorization': 'Bearer '+token
+        //   }
+        // })
+        deletetask(task)
             .then(response => {
               this.$message.success('任务删除成功');
               this.fetchTasks();

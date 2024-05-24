@@ -33,9 +33,8 @@
   </template>
   
   <script>
-  import { getAccessToken } from '@/utils/auth';
-import axios from 'axios';
 import { getrelative } from '@/api/relative';
+import { saverelative } from '@/api/relative';
   export default {
     data() {
       return {
@@ -63,7 +62,7 @@ import { getrelative } from '@/api/relative';
       fetchRelative(rid) {
         getrelative(rid)
           .then(response => {
-            this.relativeForm = response;  // 假设响应数据直接是亲人信息对象
+            this.relativeForm = response;
           })
           .catch(error => {
             console.error('Error fetching relative:', error);
@@ -71,16 +70,10 @@ import { getrelative } from '@/api/relative';
           });
       },
       saveRelative() {
-        // 假设接口地址为 '/api/relative/update'
-        const token = getAccessToken()
-        axios.post('/api/relative/update', this.relativeForm, {
-          headers: {
-            'Authorization': token // 确保Bearer格式
-          }
-        })
-          .then(() => {
+        saverelative(this.relativeForm)
+          .then(response => {
             this.$message.success('亲人信息已更新');
-            this.$router.push('/relative/info'); // 保存成功后跳转到亲人信息列表页面
+            this.$router.go(-1);
           })
           .catch(error => {
             console.error('Error saving relative:', error);
@@ -88,7 +81,7 @@ import { getrelative } from '@/api/relative';
           });
       },
       cancel() {
-        this.$router.go(-1); // 返回上一页
+        this.$router.go(-1);
       }
     }
   };
