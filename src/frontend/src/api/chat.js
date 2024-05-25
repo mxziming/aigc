@@ -3,7 +3,7 @@ import request from '@/utils/request'
 export function fetchhistory(){
     return request({
       url: `/chat/history`,
-      method: 'get',
+      method: 'get'
   })
 }
 
@@ -16,7 +16,7 @@ export function fetchchat(sessionid){
 
 export function sendquestion(question,sessionid){
   return request({
-    url: `/chat/chat`,
+    url: `/chat/conchat`,
     method: 'post',
     data: {
       question: question,
@@ -25,9 +25,10 @@ export function sendquestion(question,sessionid){
 })
 }
 
-export function newchat(){
+export function newchat(question){
   return request({
     url: `/chat/newchat`,
-    method: 'get'
+    method: 'post',
+    data: question
 })
 }

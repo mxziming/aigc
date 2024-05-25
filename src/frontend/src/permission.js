@@ -1,5 +1,6 @@
 import router from './router'
 import { getAccessToken } from '@/utils/auth'
+// import handleInitialPageLoad from './views/与AI聊天/chat'
 
 router.beforeEach((to, from, next) => {
   if (getAccessToken()) { // 如果有token
@@ -20,4 +21,5 @@ router.beforeEach((to, from, next) => {
 
 router.afterEach(() => {
   // 这里可以添加一些在路由跳转后需要执行的代码
+  // handleInitialPageLoad();
 })
