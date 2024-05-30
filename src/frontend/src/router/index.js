@@ -110,7 +110,7 @@ const routes = [
   children:[
     {
       path: '',   
-      name: 'chat',
+      name: 'health',
       component: () => import( '../views/养生知识/health.vue')
     }
   ]

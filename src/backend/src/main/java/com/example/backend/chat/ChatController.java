@@ -66,6 +66,7 @@ public class ChatController {
             chatRequest.setDate(new Date());
 
             String question = chatRequest.getQuestion();
+            System.out.println("问题是："+question);
             String jsonResponse = vivogpt.vivogpt(question);
             ParselContent parselContent = new ParselContent();
             CommonResult commonResult = parselContent.parsel(jsonResponse);

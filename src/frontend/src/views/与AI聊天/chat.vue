@@ -90,12 +90,12 @@ export default {
     async sendChat() {
       if (!this.newQuestion.trim()) return;
       try {
-        let response;
         if (this.$route.query.sessionid) {
-          response = await sendquestion(this.newQuestion, this.currentSessionId);
-          fetchchat(this.currentSessionId)
+          await sendquestion(this.newQuestion, this.currentSessionId);
+          this.newQuestion=''
+          await fetchchat(this.currentSessionId)
         } else {
-          newchat(this.newQuestion)
+           newchat(this.newQuestion)
             .then(response => {
               console.log(response)
               console.log(response.data)
@@ -103,18 +103,12 @@ export default {
               console.log(this.currentSessionId)
               this.$router.push({path: '/ai/chat/',query: {sessionid: this.currentSessionId}})
               this.newQuestion = "";
-              handleInitialPageLoad()
+               handleInitialPageLoad()/////////////////////////////////////////////////////////////////////////////////////////
             })
             .catch(error => {
               console.error(error)
             })
         }
-        // this.chats.push({
-        //   cid: response.data.cid,
-        //   question: this.newQuestion,
-        //   answer: response.data.answer
-        // });
-
       } catch (error) {
         console.error("Error sending chat:", error);
       }

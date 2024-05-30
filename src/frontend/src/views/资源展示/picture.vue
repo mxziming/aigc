@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div class="resource-page">
     <div class="resource-type-selector">
       <el-button type="primary" @click="redirectToImagePage">图片资源</el-button>
@@ -74,4 +74,4 @@ export default {
   margin-bottom: 10px;
   cursor: pointer;
 }
-</style>
+</style> -->

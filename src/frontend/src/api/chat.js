@@ -7,8 +7,8 @@ export function fetchhistory(){
   })
 }
 
-export function fetchchat(sessionid){
-    return request({
+export async function fetchchat(sessionid){
+    return await request({
       url: `/chat/`+String(sessionid),
       method: 'get',
   })
