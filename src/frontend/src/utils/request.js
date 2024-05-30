@@ -45,7 +45,10 @@ import { getAccessToken } from '@/utils/auth'
 
 const service = axios.create({
   baseURL: '/api',
-  timeout: 5000
+  timeout: 5000,
+  headers: {
+    'Content-Type': 'application/json; charset=UTF-8'  // Set the content type to JSON with UTF-8 charset
+  }
 });
 
 service.interceptors.request.use(

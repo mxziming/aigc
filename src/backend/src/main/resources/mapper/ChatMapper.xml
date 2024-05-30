@@ -12,7 +12,7 @@
 <!--    </insert>-->
 
     <select id="getChatHistory" resultType="java.lang.Integer">
-        SELECT sessionid FROM chat WHERE uid = #{uid}
+        SELECT sessionid FROM chatHistory WHERE uid = #{uid}
     </select>
 
     <select id="getChats" resultType="com.example.backend.chat.Chat">
