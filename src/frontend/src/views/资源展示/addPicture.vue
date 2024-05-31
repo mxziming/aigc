@@ -1,14 +1,7 @@
 <template>
     <div class="add-image-page">
       <h2>上传图片</h2>
-      <el-upload
-        class="upload-demo"
-        action="/upload"
-        :show-file-list="false"
-        :on-success="handleSuccess"
-        :on-error="handleError">
-        <el-button size="small" type="primary">点击上传照片</el-button>
-      </el-upload>
+      <ImageUploader />
       <el-form ref="imageForm" :model="imageForm" label-width="100px" style="margin-top: 20px;">
         <el-form-item label="描述">
           <el-input v-model="imageForm.description"></el-input>
@@ -22,7 +15,13 @@
   </template>
   
   <script>
+  import ImageUploader from '@/components/imageUploader/index.vue';
+  // import index from '@/components/imageUploader/index.vue';
   export default {
+    name: 'ImageDisplay',  // 视图的名称
+    components: {
+    ImageUploader  // 注册 ImageUploader 组件
+    },
     data() {
       return {
         imageForm: {

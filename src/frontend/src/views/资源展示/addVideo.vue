@@ -1,14 +1,7 @@
 <template>
     <div class="add-video-page">
       <h2>上传视频</h2>
-      <el-upload
-        class="upload-demo"
-        action="/upload"
-        :show-file-list="false"
-        :on-success="handleSuccess"
-        :on-error="handleError">
-        <el-button size="small" type="primary">点击上传视频</el-button>
-      </el-upload>
+      <VideoUploader />
       <el-form ref="videoForm" :model="videoForm" label-width="100px" style="margin-top: 20px;">
         <el-form-item label="描述">
           <el-input v-model="videoForm.description"></el-input>
@@ -22,7 +15,12 @@
   </template>
   
   <script>
+   import VideoUploader from '@/components/videoUploader/index.vue';
   export default {
+    name: 'VideoDisplay',  // 视图的名称
+    components: {
+    VideoUploader 
+    },
     data() {
       return {
         videoForm: {

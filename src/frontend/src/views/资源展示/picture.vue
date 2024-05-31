@@ -1,4 +1,4 @@
-<!-- <template>
+<template>
   <div class="resource-page">
     <div class="resource-type-selector">
       <el-button type="primary" @click="redirectToImagePage">图片资源</el-button>
@@ -11,7 +11,7 @@
           <img :src="resource.url" alt="Image">
         </div>
       </div>
-      <el-button type="primary" @click="addImage">添加图片</el-button>
+      <el-button class="fixed-add-button" type="primary" @click="addImage">添加图片</el-button>
     </div>
   </div>
 </template>
@@ -62,16 +62,29 @@ export default {
   margin-bottom: 20px;
 }
 .resource-list {
+  /* border: 1px solid #ccc;
+  padding: 20px;
+  position: relative; //为了定位固定按钮 */
   border: 1px solid #ccc;
   padding: 20px;
+  padding-top: 40px; /* 增加上内边距 */
+  padding-bottom: 60px; /* 增加下内边距 */
+  position: relative; /* 为了定位固定按钮 */
 }
 .image-list {
   display: flex;
   flex-wrap: wrap;
+  max-height: 10000px; /* 固定高度 */
+  overflow-y: auto; /* 超出部分滚动 */
 }
 .image-item {
   margin-right: 10px;
   margin-bottom: 10px;
   cursor: pointer;
 }
-</style> -->
+.fixed-add-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+</style>

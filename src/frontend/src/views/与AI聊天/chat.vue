@@ -1,15 +1,15 @@
-<!-- <template>
+<template>
   <el-container style="height: 100vh;">
-    <el-container class="history-container">
+    <el-aside width="250px" class="history-container">
       <el-scrollbar>
-        <el-button @click="createNewChat" class="newchat">New Chat</el-button>
+        <el-button @click="createNewChat" type="primary" class="newchat">开始新聊天</el-button>
         <el-menu :default-active="currentSessionId" @select="handleSelect" class="history-menu">
           <el-menu-item v-for="history in chatHistories" :key="history" :index="history">
             {{ history }}
           </el-menu-item>
         </el-menu>
       </el-scrollbar>
-    </el-container>
+    </el-aside>
 
     <el-container>
       <el-main class="chat-main">
@@ -20,14 +20,14 @@
           </div>
         </div>
         <div v-else class="no-chat">
-          <p>欢迎与蓝心大模型对话</p>
+          <p>欢迎与BlueLM对话</p>
         </div>
       </el-main>
 
       <el-footer class="chat-footer">
-        <el-input v-model="newQuestion" placeholder="Enter your message" @keyup.enter="sendChat" class="chat-input">
+        <el-input v-model="newQuestion" placeholder="输入你的消息" @keyup.enter="sendChat" class="chat-input">
           <el-button slot="prepend" icon="el-icon-microphone" @click="startVoiceInput"></el-button>
-          <el-button slot="append" @click="sendChat">发送</el-button>
+          <el-button slot="append" type="primary" @click="sendChat">发送</el-button>
         </el-input>
       </el-footer>
     </el-container>
@@ -36,7 +36,6 @@
 
 <script>
 import { fetchhistory, fetchchat, sendquestion, newchat } from "@/api/chat"; // Change the path accordingly
-import { create } from "core-js/core/object";
 
 export default {
   data() {
@@ -45,7 +44,6 @@ export default {
       chats: [],
       currentSessionId: null,
       newQuestion: "",
-      exampleData: "This is an example data."
     };
   },
   mounted() {
@@ -79,45 +77,34 @@ export default {
       }
     },
     async createNewChat() {
-      //有sid，push到新页面；没有sid，不变
-      if (this.$route.query.sessionid){
-        console.log(this.$route.query.sessionid)
+      if (this.$route.query.sessionid) {
         this.$router.push('/ai/chat');
         this.chats = [];
-        fetchhistory();
+        this.currentSessionId = null
+        await this.loadChatHistories();
       }
     },
     async sendChat() {
       if (!this.newQuestion.trim()) return;
       try {
-        if (this.$route.query.sessionid) {
+        if (this.currentSessionId) {
           await sendquestion(this.newQuestion, this.currentSessionId);
-          this.newQuestion=''
-          await fetchchat(this.currentSessionId)
+          this.newQuestion = '';
+          await this.loadChat(this.currentSessionId);
         } else {
-           newchat(this.newQuestion)
-            .then(response => {
-              console.log(response)
-              console.log(response.data)
-              this.currentSessionId = response.data.sessionid
-              console.log(this.currentSessionId)
-              this.$router.push({path: '/ai/chat/',query: {sessionid: this.currentSessionId}})
-              this.newQuestion = "";
-               handleInitialPageLoad()/////////////////////////////////////////////////////////////////////////////////////////
-            })
-            .catch(error => {
-              console.error(error)
-            })
+          const response = await newchat(this.newQuestion);
+          this.currentSessionId = response.data.sessionid;
+          this.$router.push({ path: '/ai/chat/', query: { sessionid: this.currentSessionId } });
+          this.newQuestion = '';
+          await this.handleInitialPageLoad();
         }
       } catch (error) {
         console.error("Error sending chat:", error);
       }
     },
-
     async startVoiceInput() {
       // Implement voice input functionality if needed
     },
-
     handleSelect(sessionid) {
       this.currentSessionId = sessionid;
       this.$router.push({ path: '/ai/chat', query: { sessionid } });
@@ -127,29 +114,66 @@ export default {
 };
 </script>
 
-
 <style scoped>
-/* Add your custom styles here */
 .history-container {
-  flex: 0 0 25%;
-  overflow-y: auto;
+  background-color: #f5f5f5;
+  padding: 20px;
 }
-.chat-main {
-  flex: 1;
-  overflow-y: auto;
-}
-.chat-footer {
-  flex: 0 0 auto;
-}
-.chat-input {
+
+.newchat {
   width: 100%;
+  margin-bottom: 20px;
 }
+
+.history-menu {
+  margin-top: 20px;
+}
+
+.chat-main {
+  padding: 20px;
+  background-color: #fff;
+  overflow-y: auto;
+}
+
+.chat-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-item {
+  margin-bottom: 15px;
+}
+
+.user-message {
+  background-color: #f0f8ff;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.ai-message {
+  background-color: #f5f5f5;
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 5px;
+}
+
 .no-chat {
   text-align: center;
   margin-top: 20px;
+  color: #999;
 }
-</style> -->
 
+.chat-footer {
+  background-color: #f5f5f5;
+  padding: 10px 20px;
+}
+
+.chat-input {
+  width: 100%;
+}
+</style>
+
+<!-- 
 <template>
   <el-container style="height: 100vh;">
     <el-aside width="250px" class="history-container">
@@ -323,4 +347,4 @@ export default {
 .chat-input {
   width: 100%;
 }
-</style>
+</style> -->
