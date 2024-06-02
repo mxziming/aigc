@@ -8,7 +8,7 @@
       <h2>图片资源</h2>
       <div class="image-list">
         <div v-for="(url, index) in imageResources" :key="index" class="image-item">
-          <img :src="url" alt="Image" @click="viewImage(url)">
+          <img :src="url" alt="Image" @click="viewImage(url)"> 
         </div>
       </div>
       <!-- <img src="https:\\\/img0.baidu.com/\\it\u=2392209312,2985640217&fm=253&fmt=auto&app=120&f=JPEG?w=500&h=667"> -->
@@ -41,7 +41,7 @@ export default {
       })
         .then(response => {
           console.log(response.data.data)
-          const baseURL = 'https://139.224.204.66';
+          const baseURL = '/api/ssadmin-server';
           for (let i = 0; i < response.data.data.length; i++) {
               response.data.data[i] = baseURL + response.data.data[i];
           }

@@ -1,5 +1,6 @@
 FROM jack666ie/javamaven:21396
-RUN mkdir -p /ssadmin-server
+RUN mkdir -p /ssadmin-server/source/picture
+RUN mkdir -p /ssadmin-server/source/video
 WORKDIR /ssadmin-server
 
 COPY ./target/backend-0.0.1-SNAPSHOT.jar app.jar
