@@ -12,6 +12,17 @@
         VALUES (#{uid}, #{description}, #{date}, #{url})
     </insert>
 
+    <select id="getAllPictureUrls" resultType="String">
+        SELECT url
+        FROM picture
+        WHERE uid = #{uid}
+    </select>
+
+    <select id="getAllVideoUrls" resultType="String">
+        SELECT url
+        FROM video
+        WHERE uid = #{uid}
+    </select>
 <!--    &lt;!&ndash; 查找任务 &ndash;&gt;-->
 <!--    <select id="findTaskById" resultType="com.example.backend.task.Task">-->
 <!--        SELECT id, name, uid, ddl, completed-->

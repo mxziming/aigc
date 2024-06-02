@@ -39,10 +39,10 @@ public class SourceController {
     public CommonResult<?> uploadImage(@RequestHeader("Authorization") String accessToken,
                                        @RequestParam("files") MultipartFile[] files,
                                        @RequestParam("description") String description
-                                       ) throws Exception {
+    ) throws Exception {
         String token = accessToken.substring(7);
         User user = userService.getUserInfoByToken(token);
-        for(MultipartFile file : files) {
+        for (MultipartFile file : files) {
             try {
                 String uniqueFileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
                 System.out.println("文件名为" + uniqueFileName);
@@ -66,8 +66,8 @@ public class SourceController {
     @PostMapping("/uploadVideo")
     public CommonResult<?> uploadVideo(@RequestHeader("Authorization") String accessToken,
                                        @RequestParam("files") MultipartFile[] files,
-                                       @RequestParam("description") String description ) throws Exception {
-        System.out.println("视频的文件夹路径为："+videoDir);
+                                       @RequestParam("description") String description) throws Exception {
+        System.out.println("视频的文件夹路径为：" + videoDir);
         String token = accessToken.substring(7);
         User user = userService.getUserInfoByToken(token);
         for (MultipartFile file : files) {
@@ -76,7 +76,7 @@ public class SourceController {
             }
             try {
                 String uniqueFileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
-                System.out.println("文件名为"+uniqueFileName);
+                System.out.println("文件名为" + uniqueFileName);
                 File uploadedFile = new File(videoDir + uniqueFileName);
                 file.transferTo(uploadedFile);
 
@@ -94,14 +94,30 @@ public class SourceController {
         return CommonResult.success(200);
     }
 
-
     @GetMapping("/images")
-    public List<String> getImages() {
+    public CommonResult<List<String>> getImages(@RequestHeader("Authorization") String accessToken) throws Exception {
+        System.out.println("start");
+        String token = accessToken.substring(7);
+        User user = userService.getUserInfoByToken(token);
+        List<String> urls = sourceMapper.getAllPictureUrls(user.getId());
+        System.out.println(urls);
+        return CommonResult.success(urls);
     }
 
     @GetMapping("/videos")
-    public List<String> getVideos() {
+    public CommonResult<List<String>> getVideos(@RequestHeader("Authorization") String accessToken) throws Exception {
+        String token = accessToken.substring(7);
+        User user = userService.getUserInfoByToken(token);
+        List<String> urls = sourceMapper.getAllVideoUrls(user.getId());
+        return CommonResult.success(urls);
     }
+//    @GetMapping("/images")
+//    public List<String> getImages() {
+//    }
+//
+//    @GetMapping("/videos")
+//    public List<String> getVideos() {
+//    }
 
 //    private ResponseEntity<String> uploadFile(MultipartFile file, String type) {
 //        if (file.isEmpty()) {
