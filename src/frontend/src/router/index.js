@@ -73,6 +73,7 @@ const routes = [
         path: 'addPicture',
         name: 'addPicture',
         component: () => import( '../views/资源展示/addPicture.vue')
+        // component: () => import( '../views/资源展示/SuccessaddPicture.vue')
       },
       {
         path: 'addVideo',

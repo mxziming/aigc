@@ -95,15 +95,13 @@ public class SourceController {
     }
 
 
-//    @GetMapping("/images")
-//    public List<String> getImages() {
-//        return images;
-//    }
-//
-//    @GetMapping("/videos")
-//    public List<String> getVideos() {
-//        return videos;
-//    }
+    @GetMapping("/images")
+    public List<String> getImages() {
+    }
+
+    @GetMapping("/videos")
+    public List<String> getVideos() {
+    }
 
 //    private ResponseEntity<String> uploadFile(MultipartFile file, String type) {
 //        if (file.isEmpty()) {
