@@ -76,34 +76,66 @@
         dialogImageUrl: "",
         dialogVisible: false,
         hideUpload: false,
-        uploadFileUrl: process.env.VUE_APP_BASE_API + "/admin-api/infra/file/upload", // 请求地址
-        headers: { Authorization: "Bearer " + getAccessToken() }, // 设置上传的请求头部
+        uploadFileUrl: "/api/source/uploadImage", // 请求地址
+        headers:  {
+        Authorization: 'Bearer ' + getAccessToken()
+      }, // 设置上传的请求头部
         fileList: []
       };
     },
+    // watch: {
+    //   value: {
+    //     handler(val) {
+    //       if (val) {
+    //         // 首先将值转为数组, 当只穿了一个图片时，会报map方法错误
+    //         const list = Array.isArray(val) ? val :  Array.isArray(this.value.split(',')) ? this.value.split(','): Array.of(this.value);
+    //         // 然后将数组转为对象数组
+    //         this.fileList = list.map(item => {
+    //           if (typeof item === "string") {
+    //             // edit by 芋道源码
+    //             item = { name: item, url: item };
+    //           }
+    //           return item;
+    //         });
+    //       } else {
+    //         this.fileList = [];
+    //         return [];
+    //       }
+    //     },
+    //     deep: true,
+    //     immediate: true
+    //   }
+    // },
     watch: {
-      value: {
-        handler(val) {
-          if (val) {
-            // 首先将值转为数组, 当只穿了一个图片时，会报map方法错误
-            const list = Array.isArray(val) ? val :  Array.isArray(this.value.split(',')) ? this.value.split(','): Array.of(this.value);
-            // 然后将数组转为对象数组
-            this.fileList = list.map(item => {
-              if (typeof item === "string") {
-                // edit by 芋道源码
-                item = { name: item, url: item };
-              }
-              return item;
-            });
-          } else {
-            this.fileList = [];
-            return [];
+  fileList: {
+    handler(newVal) {
+      // 触发父组件的 update 事件
+      this.$emit('update', newVal);
+    },
+    deep: true
+  },
+  value: {
+    handler(val) {
+      if (val) {
+        // 首先将值转为数组, 当只传了一个图片时，会报map方法错误
+        const list = Array.isArray(val) ? val :  Array.isArray(this.value.split(',')) ? this.value.split(','): Array.of(this.value);
+        // 然后将数组转为对象数组
+        this.fileList = list.map(item => {
+          if (typeof item === "string") {
+            // edit by 芋道源码
+            item = { name: item, url: item };
           }
-        },
-        deep: true,
-        immediate: true
+          return item;
+        });
+      } else {
+        this.fileList = [];
       }
     },
+    deep: true,
+    immediate: true
+  }
+},
+
     computed: {
       // 是否显示提示
       showTip() {

@@ -1,58 +1,91 @@
 <template>
-    <div class="add-image-page">
-      <h2>上传图片</h2>
-      <ImageUploader />
-      <el-form ref="imageForm" :model="imageForm" label-width="100px" style="margin-top: 20px;">
-        <el-form-item label="描述">
-          <el-input v-model="imageForm.description"></el-input>
-        </el-form-item>
-        <el-form-item>
-        <el-button type="primary" @click="submitForm">确认上传</el-button>
-        <el-button @click="goBack">返回</el-button>
-      </el-form-item>
-      </el-form>
+    <div>
+      <el-upload
+        ref="upload"
+        multiple
+        list-type="picture-card"
+        :before-upload="handleBeforeUpload"
+        :limit="limit"
+        :file-list="fileList"
+        @remove="handleRemove"
+      >
+        <i class="el-icon-plus"></i>
+      </el-upload>
+      <el-input
+        v-model="description"
+        placeholder="Description"
+        class="description-input"
+      ></el-input>
+      <el-button type="primary" @click="submitForm" class="send-button">
+        Send
+      </el-button>
     </div>
   </template>
   
   <script>
-  import ImageUploader from '@/components/imageUploader/index.vue';
-  // import index from '@/components/imageUploader/index.vue';
+  import axios from 'axios';
+  import { getAccessToken } from "@/utils/auth";
+  import { updateImage } from '@/api/source';
   export default {
-    name: 'ImageDisplay',  // 视图的名称
-    components: {
-    ImageUploader  // 注册 ImageUploader 组件
+    props: {
+      limit: {
+        type: Number,
+        default: 5,
+      },
     },
     data() {
       return {
-        imageForm: {
-          description: ''
-        }
+        fileList: [],
+        description: '',
       };
     },
     methods: {
-      handleSuccess(response, file, fileList) {
-        console.log('上传成功', response, file, fileList);
-      },
-      handleError(err, file, fileList) {
-        console.error('上传失败', err, file, fileList);
-      },
-      submitForm() {
-        console.log('确认上传', this.imageForm);
-        // 在这里执行上传逻辑，可以使用axios等方式发送到后端
-      },
-      goBack() {
-        this.$router.go(-1);
+        submitForm() {
+    const formData = new FormData();
+    this.fileList.forEach(file => {
+      formData.append('files', file);
+    });
+    formData.append('description', this.description);
+
+    axios.post('/api/source/uploadImage', formData, {
+      headers: {
+        'Authorization': 'Bearer ' + getAccessToken(),
+        'Content-Type': 'multipart/form-data'
       }
+    })
+        .then(response => {
+          this.$message.success("Images uploaded successfully");
+          console.log('Upload successful', response);
+          // Clear description after successful upload
+          this.description = '';
+        }).catch(error => {
+          this.$message.error("Failed to upload images");
+          console.error('Upload failed', error);
+        });
+      },
+      handleBeforeUpload(file) {
+        // Perform file type and size validation if needed
+        this.fileList.push(file);
+        return false; // Prevent automatic upload
+      },
+      handleRemove(file, fileList) {
+        // Handle file removal from the fileList
+        const index = fileList.indexOf(file);
+        if (index !== -1) {
+          fileList.splice(index, 1);
+        }
+      },
+
     }
   };
   </script>
   
   <style scoped>
-  .add-image-page {
-    padding: 20px;
+  .description-input {
+    margin-top: 10px;
   }
-  .upload-demo {
-    margin-bottom: 20px;
+  .send-button {
+    margin-top: 10px;
   }
   </style>
   
