@@ -6,13 +6,13 @@
     </div>
     <div class="resource-list">
       <h2>图片资源</h2>
-      <!-- <div class="image-list">
+      <div class="image-list">
         <div v-for="(url, index) in imageResources" :key="index" class="image-item">
           <img :src="url" alt="Image" @click="viewImage(url)">
         </div>
-      </div> -->
+      </div>
       <!-- <img src="https://img2.baidu.com/it/u=2074916572,2932976242&fm=253&fmt=auto&app=120&f=JPEG?w=500&h=500"> -->
-      <img src="http://localhost:8080/C:/Users/12952/Pictures/AIGC/picture/7d64b5ef-448b-4920-85c8-1461b55a142e_image (2).png">
+      <!-- <img src="http://localhost:8080/C:/Users/12952/Pictures/AIGC/picture/7d64b5ef-448b-4920-85c8-1461b55a142e_image (2).png"> -->
       <el-button class="fixed-add-button" type="primary" @click="addImage">添加图片</el-button>
     </div>
   </div>
@@ -39,8 +39,12 @@ export default {
         }
       })
         .then(response => {
+          console.log(response.data.data)
+          const baseURL = 'http://139.196.55.140/';
+          for (let i = 0; i < response.data.data.length; i++) {
+              response.data.data[i] = baseURL + response.data.data[i];
+          }
           this.imageResources = response.data.data;
-          // this.imageResources = response.data.data.map(path => this.getLocalFileURL(path));
         })
         .catch(error => {
           console.error('Error fetching image resources:', error);
