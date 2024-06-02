@@ -1,0 +1,71 @@
+version: "3.8"
+
+services:
+    mysql:
+        container_name: mysql_container
+        image: mysql:8
+        restart: unless-stopped
+        ports:
+            - "3306:3306"
+        environment:
+            MYSQL_DATABASE: ${MYSQL_DATABASE:-myDB}
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-password}
+        volumes:
+            - mysql:/var/lib/mysql/
+            - ./src/sql/chat.sql:/docker-entrypoint-initdb.d/chat.sql:ro
+            - ./src/sql/chathistory.sql:/docker-entrypoint-initdb.d/chathistory.sql:ro
+            - ./src/sql/relative.sql:/docker-entrypoint-initdb.d/relative.sql:ro
+            - ./src/sql/tasks.sql:/docker-entrypoint-initdb.d/tasks.sql:ro
+            - ./src/sql/user.sql:/docker-entrypoint-initdb.d/user.sql:ro
+            - ./src/sql/picture.sql:/docker-entrypoint-initdb.d/picture.sql:ro
+            - ./src/sql/video.sql:/docker-entrypoint-initdb.d/video.sql:ro
+
+        
+
+        networks:
+            - my_network
+    php:
+        container_name: php_container
+        image: phpmyadmin/phpmyadmin:4.9
+        restart: always
+        ports:
+            - "8000:80"
+        environment:
+            PMA_HOST: mysql_container
+        networks:
+            - my_network
+
+    server:
+        container_name: server_container
+        build:
+            context: ./src/backend/
+        restart: unless-stopped
+        ports:
+            - "28080:28080"
+        networks:
+            - my_network
+        environment:
+            JAVA_OPTS: ${JAVA_OPTS:- -Xms512m -Xmx512m -Djava.security.egd=file:/dev/./urandom}
+            ARGS: --spring.datasource.url=${DATASOURCE_URL:-jdbc:mysql://mysql_container:3306/myDB?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&nullCatalogMeansCurrent=true} --spring.datasource.username=${DATASOURCE_USERNAME:-root} --spring.datasource.password=${DATASOURCE_PASSWORD:-password}
+        depends_on:
+            - mysql
+    web:
+        container_name: web_container
+        build:
+            context: ./src/frontend
+        restart: unless-stopped
+        ports:
+            - "80:80"
+        networks:
+            - my_network
+        depends_on:
+            - server
+
+            
+volumes:
+    mysql:
+        driver: local
+
+networks:
+    my_network:
+        driver: bridge
