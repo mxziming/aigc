@@ -30,12 +30,11 @@ public class ChatController {
     @GetMapping("/history")
     public CommonResult<?> fetchHistory(@RequestHeader("Authorization") String accessToken) {
         try {
-            System.out.println("history");
             String token = accessToken.substring(7);
             User user = userService.getUserInfoByToken(token);
-//            System.out.println("正在获取");
+            System.out.println("正在获取历史");
             List<Integer> sessions = chatMapper.getChatHistory(user.getId());
-//            System.out.println("获取成功");
+            System.out.println("历史获取成功");
             return CommonResult.success(sessions);
         } catch (Exception e) {
             return CommonResult.error(400,"获取sessions出现错误");

@@ -11,6 +11,7 @@
           <img :src="url" alt="Image" @click="viewImage(url)">
         </div>
       </div>
+      <!-- <img src="https:\\\/img0.baidu.com/\\it\u=2392209312,2985640217&fm=253&fmt=auto&app=120&f=JPEG?w=500&h=667"> -->
       <!-- <img src="https://img2.baidu.com/it/u=2074916572,2932976242&fm=253&fmt=auto&app=120&f=JPEG?w=500&h=500"> -->
       <!-- <img src="http://localhost:8080/C:/Users/12952/Pictures/AIGC/picture/7d64b5ef-448b-4920-85c8-1461b55a142e_image (2).png"> -->
       <el-button class="fixed-add-button" type="primary" @click="addImage">添加图片</el-button>
@@ -40,7 +41,7 @@ export default {
       })
         .then(response => {
           console.log(response.data.data)
-          const baseURL = 'http://139.196.55.140/';
+          const baseURL = 'https://106.14.96.104';
           for (let i = 0; i < response.data.data.length; i++) {
               response.data.data[i] = baseURL + response.data.data[i];
           }
