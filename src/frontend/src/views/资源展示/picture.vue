@@ -41,7 +41,7 @@ export default {
       })
         .then(response => {
           console.log(response.data.data)
-          const baseURL = 'https://106.14.96.104';
+          const baseURL = 'https://139.224.204.66';
           for (let i = 0; i < response.data.data.length; i++) {
               response.data.data[i] = baseURL + response.data.data[i];
           }
