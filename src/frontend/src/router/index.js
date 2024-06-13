@@ -1,12 +1,16 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-// import HomeView from '../views/HomeView.vue'
 import Layout from '@/layout'
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
+    name: 'Home',
+    component: () => import( '../views/主页/Home.vue')
+  },
+  {
+    path: '/login',
     name: 'Login',
     component: () => import( '../views/登录注册/Login.vue')
   },
